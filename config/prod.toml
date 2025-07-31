@@ -1,0 +1,30 @@
+[server]
+host = "127.0.0.1"
+port = 8080
+debug = true
+
+[mysql]
+host = "127.0.0.1"
+port = 3306
+user = "root"
+password = "rootpass"
+database = "test_db"
+pool_max_size = 10
+pool_min_size = 5
+connect_timeout = 5
+idle_timeout = 300
+max_lifetime = 3600
+
+[redis]
+host = "127.0.0.1"
+port = 6379
+user = ""
+password = ""
+database = 1
+pool_max_size = 10
+pool_min_size = 2
+connect_timeout = 5
+idle_timeout = 300
+max_lifetime = 3600
+
+[logger]

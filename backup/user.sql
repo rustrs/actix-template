@@ -1,0 +1,5 @@
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    address VARCHAR(42) NOT NULL UNIQUE,
+    create_time int(10) NOT NULL
+);
