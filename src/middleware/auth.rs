@@ -1,13 +1,11 @@
 
 use crate::{constants::REDIS_BLACKLIST_PREFIX};
 use jsonwebtoken::{encode, EncodingKey, Header};
-use serde_json::json;
+
 
 use actix_web::{
     dev::{ServiceRequest, ServiceResponse, Transform, forward_ready},
     Error, HttpMessage,
-    HttpResponse,
-    body::MessageBody,
 };
 use deadpool_redis::Pool;
 use futures_util::future::{ok, LocalBoxFuture, Ready};
@@ -16,7 +14,7 @@ use std::rc::Rc;
 use redis::AsyncCommands;
 use serde::{Deserialize,Serialize};
 
-use actix_web::error::ErrorUnauthorized;
+
 
 
 #[derive(Serialize, Deserialize,Clone)]

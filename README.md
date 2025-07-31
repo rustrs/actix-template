@@ -58,7 +58,7 @@ A production-ready **Rust web backend template** built with [`actix-web 4`](http
 ```bash
 git clone https://github.com/rustrs/actix-template.git
 cd template
-cargo run
+cargo run -- -c config.toml
 ```
 
 OR
@@ -68,6 +68,32 @@ cargo install cargo-generate
 cargo generate --git https://github.com/rustrs/actix-template.git --name my-new-project
 
 ```
+
+```
+➜  airdrop git:(master) ✗ cargo run -- --help
+   Compiling airdrop v0.1.0 (/Users/xiaohai/work/code/me/rust/airdrop)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.66s
+     Running `target/debug/airdrop --help`
+Usage: airdrop [OPTIONS]
+
+Options:
+  -c, --config <CONFIG>  Path to the configuration file [default: config/local.toml]
+  -h, --help             Print help
+  -V, --version          Print version
+➜  airdrop git:(master) ✗ cargo build
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.65s
+➜  airdrop git:(master) ✗ cargo run -- --help
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s
+     Running `target/debug/airdrop --help`
+Usage: airdrop [OPTIONS]
+
+Options:
+  -c, --config <CONFIG>  Path to the configuration file [default: config/local.toml]
+  -h, --help             Print help
+  -V, --version          Print version
+
+```
+
 
 🔒 Authentication Flow
 - JWT issued on login and stored client-side
