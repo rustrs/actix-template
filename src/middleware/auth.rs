@@ -1,5 +1,5 @@
 
-use crate::{constants::REDIS_BLACKLIST_PREFIX};
+
 use jsonwebtoken::{encode, EncodingKey, Header};
 
 
@@ -14,7 +14,7 @@ use std::rc::Rc;
 use redis::AsyncCommands;
 use serde::{Deserialize,Serialize};
 
-
+use crate::tpl::redis_key::RedisKeyTemplate;
 
 
 #[derive(Serialize, Deserialize,Clone)]
@@ -120,7 +120,7 @@ where
                         actix_web::error::ErrorInternalServerError("Token is blacklisted")
                     })?;
                     
-                    let redis_key = format!("{}{}",REDIS_BLACKLIST_PREFIX, token);
+                    let redis_key = RedisKeyTemplate::Blacklist(token).format();
                     let exists: bool = conn.exists(redis_key).await.map_err(|_| {
                         actix_web::error::ErrorInternalServerError("Token is blacklisted")
                     })?;
@@ -128,7 +128,6 @@ where
                     if exists {
                         return Err(actix_web::error::ErrorUnauthorized("Token is blacklisted"));
                     }
-
 
                     req.extensions_mut().insert(token_data.claims);
                     service.call(req).await

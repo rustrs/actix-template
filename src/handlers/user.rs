@@ -5,7 +5,7 @@ use chrono::Utc;
 use serde::{Deserialize, Serialize};
 
 use crate::app::state::AppState;
-use crate::constants::REDIS_BLACKLIST_PREFIX;
+
 use crate::utils::{
     utils::verify_personal_sign,
     error_code::ErrorCode,
@@ -24,7 +24,10 @@ use crate::middleware::{
 };
 
 use deadpool_redis::redis::AsyncCommands;
-
+use crate::tpl::{
+    message::MsgTemplate,
+    redis_key::RedisKeyTemplate,
+};
 
 
 #[derive(Debug, Deserialize,Serialize)]
@@ -35,6 +38,7 @@ struct LoginRequest {
 }
 
 
+
 #[post("/user/login")]
 async fn user_login(
     mut req: web::Json<LoginRequest>,
@@ -43,7 +47,7 @@ async fn user_login(
     tracing::info!("req:{}",serde_json::json!(&req));
 
     req.address = req.address.to_lowercase();
-    let message = format!("Welcome to Airdrop! Your login timestamp is: {}", req.timestamp);
+    let message = MsgTemplate::Welcome(req.timestamp).format();
     let is_valid = match verify_personal_sign(&message, &req.sign,&req.address) {
         Ok(valid) => valid,
         Err(e) => {
@@ -113,7 +117,7 @@ async fn user_logout(req: HttpRequest, app_state: web::Data<AppState>,claims: we
             return ApiResponse::<()>::from_error(ErrorCode::ServerError);
         }
     };
-    let redis_key = format!("{}{}",REDIS_BLACKLIST_PREFIX, token);
+    let redis_key = RedisKeyTemplate::Blacklist(token).format();
     if let Err(e) = conn.set_ex::<_, _, ()>(redis_key, "1", ttl as u64).await {
         tracing::error!("Failed to set redis blacklist: {}", e);
         return ApiResponse::<()>::from_error(ErrorCode::ServerError);

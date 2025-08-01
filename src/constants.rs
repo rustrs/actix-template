@@ -1,1 +1,0 @@
-pub const REDIS_BLACKLIST_PREFIX: &str = "blacklist:";

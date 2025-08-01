@@ -12,3 +12,5 @@ pub mod models;
 pub mod middleware;
 
 pub mod constants;
+
+pub mod tpl;
