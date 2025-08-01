@@ -10,7 +10,7 @@ pub enum ErrorCode {
     ServerError,
     Unauthorized
 }
-
+#[deny(unreachable_patterns)]
 impl ErrorCode {
     pub fn code(&self) -> i32 {
         match self {

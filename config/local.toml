@@ -29,7 +29,7 @@ idle_timeout = 300
 max_lifetime = 3600
 
 [jwt]
-secret = ""
+secret = "7qxT2QwDUGDmBj6DmNpFMbMAVG1xWC2R"
 expiration = 86400
 
 [log]
